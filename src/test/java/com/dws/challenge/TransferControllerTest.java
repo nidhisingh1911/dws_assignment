@@ -41,7 +41,7 @@ public class TransferControllerTest {
         transferRequest.setAmount(BigDecimal.TEN);
 
         mockMvc.perform(post("/v1/transfers")
-                .contentType(MediaType.APPLICATION_JSON)
+                .contentType(MediaType.APPLICATION_JSON_VALUE)
                 .content(asJsonString(transferRequest)))
                 .andExpect(status().isOk());
 
@@ -58,7 +58,7 @@ public class TransferControllerTest {
         doThrow(new IllegalArgumentException("Insufficient balance")).when(transferService).transferMoney(transferRequest);
 
         mockMvc.perform(post("/v1/transfers")
-                .contentType(MediaType.APPLICATION_JSON)
+                .contentType(MediaType.APPLICATION_JSON_VALUE)
                 .content(asJsonString(transferRequest)))
                 .andExpect(status().isBadRequest())
                 .andExpect(content().string("Insufficient balance"));
@@ -68,7 +68,7 @@ public class TransferControllerTest {
     
     @Test
     void transferNoBody() throws Exception {
-      this.mockMvc.perform(post("/v1/transfers").contentType(MediaType.APPLICATION_JSON))
+      this.mockMvc.perform(post("/v1/transfers").contentType(MediaType.APPLICATION_JSON_VALUE))
         .andExpect(status().isBadRequest());
     }
 
